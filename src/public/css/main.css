@@ -1,0 +1,7 @@
+.logo{
+    width: 30%;
+}
+
+.navbar{
+    --bs-navbar-padding-y: .4rem;
+}

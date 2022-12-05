@@ -1,0 +1,77 @@
+<div class="modal fade" id="addUpdateModal" tabindex="-1" show="true" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="titleModal">Agregar Pedidos</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form action="/pedidos/store" id='formPedido' method="POST" >
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<a type="button" class="btn btn-secondary" onclick="addProducto ()">Agregar productos</a>
+								</div>
+								<span id='productosLista'></span>
+							</div>
+						</div>
+						<div class="form-group" style='display:none' id="formProductos">
+							<div class="form-group">
+								<label class="form-label mt-4">productos*</label>
+								<div class="input-group mb-3">
+									<select class="form-select" aria-label="Default select example" id="selectProducto">
+										<option selected value="0">Selecciona producto</option>
+										{{#each productoMap}}
+										<option value="{{this._id}}">{{this.nombre}}</option>
+										{{/each}}
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label for="cantidad">Cantidad * </label>
+									<input type="number" value="1" id="cantidad" name="cantidad" id="cantidad">
+								</div>
+								<input type="hidden" id="productosListado" name="productosListado" id="productosListado">
+								<div class="col-md-12" align="left">
+									<a type="button" class="btn btn-primary" onclick="newProducto()">Confirmar</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="col-md-12">
+						<span id='productosLista'></span>
+					</div>
+					<button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+					<button type="submit" class="btn btn-primary" >Guardar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<script>
+function addProducto(){
+	document.getElementById('formProductos').style.display='block'
+}
+
+function newProducto(){
+	let producto=document.getElementById('selectProducto').value
+	let cantidadP=document.getElementById('cantidad').value
+	productos.push({id:producto,cantidad:cantidadP})
+	console.log(productos)
+	contenido=''
+	for (var i = productos.length - 1; i >= 0; i--) {
+		contenido+=`
+		<span class="badge badge-pill badge-primary">producto ${i+1} cantidad: ${cantidadP}</span>
+		`
+	}
+	document.getElementById('productosListado').value=JSON.stringify(productos)
+	document.getElementById('productosLista').innerHTML=contenido
+	document.getElementById('formProductos').style.display='none'
+}
+</script>

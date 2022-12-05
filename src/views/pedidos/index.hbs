@@ -1,0 +1,71 @@
+<div class="row">
+
+	<div class="col-md-12 mx-auto">
+		<div class="card mt-12 text-center">
+			<div class="card-header">
+				<h1>
+					Pedidos
+				</h1>
+				<div class="col-md-12" align="right">
+					<a type="button" onClick="addUpdate()" class="btn btn-primary" ><i class="fa fa-plus" aria-hidden="true"></i> Agregar Pedidos</a>
+				</div>
+			</div>
+			<div class="card-body">
+                <table class="table" id="tablePedidos">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Productos incluidos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each pedidoMap}}
+                        <tr>
+                            <td width="10%" align="left">
+                                {{@index}}
+                            </td>
+                            <td width="20%" align="left">
+                                {{this.folio}}
+                            </td>
+                            <td width="20%" align="left">
+                                {{this.fecha}}
+                            </td>
+                            <td width="20%" align="left">
+                                {{this.productos}}
+                            </td>
+                            
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">var productos=[]</script>
+{{> addUpdatePedidos}}
+
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="text/javascript">
+$(document).ready( function () {
+    $('#tablePedidos').DataTable();
+} );
+function addUpdate(nombre='',id=null){
+	console.log('ok')
+    /*console.log('/productos/update/'+id)
+    $('#nombre').val(nombre);
+    $('#formProducto').attr('action', '/productos/store');
+    if(id){
+        $('#formProducto').attr('action', '/productos/update/'+id);
+        document.getElementById('titleModal').innerHTML='Editar Marca'
+    }else{
+        document.getElementById('titleModal').innerHTML='Agregar Marca'   
+    }*/
+        $('#addUpdateModal').modal('show'); // abrir
+}
+
+</script>

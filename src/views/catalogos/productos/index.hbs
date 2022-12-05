@@ -1,0 +1,128 @@
+<div class="row">
+    <div class="col-md-12 mx-auto">
+        <div class="card mt-12 text-center">
+            <div class="card-header">
+                <h1>
+                    Productos
+                </h1>
+                <div class="col-md-12" align="right">
+                    <a type="button" onClick="addUpdate()" class="btn btn-primary" ><i class="fa fa-plus" aria-hidden="true"></i> Agregar Marca</a>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <table class="table" id="tableProductos">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nombre</th>
+                            <th>Marca</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each productoMap}}
+                        <tr>
+                            <td width="10%" align="left">
+                                {{@index}}
+                            </td>
+                            <td width="20%" align="left">
+                                {{this.nombre}}
+                            </td>
+                            <td width="20%" align="left">
+                                {{this.marca_id}}
+                            </td>
+                            <td width="15%" align="left">
+                                {{this.precio}}
+                            </td>
+                            <td width="20%">
+                                <button type="button" class="btn btn-warning left" onclick="addUpdate('{{this.nombre}}','{{this.id}}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                <button type="button" class="btn btn-danger left"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" show="true" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleModal">Agregar Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" id='formProducto' method="POST">
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="form-group" >
+                            <div class="form-group">
+                                <div class="form-group has-success">
+                                    <label class="form-label mt-4" for="Nombre">Nombre*</label>
+                                    <input id='nombre' type="text" name='nombre' placeholder="Nombre" oninput="validaInput()" class="form-control is-valid" id="inputValid">
+                                    <div class="invalid-feedback" id="errNombre" >El nombre se compone de minimo 4 letras.</div>
+                                </div>
+                                <label class="form-label mt-4">Precio*</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">$</span>
+                                    <input id='precio' name='precio' type="number" oninput="validaInput()" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                    <div class="invalid-feedback" id="errNombre" >Tiene que ser mayor a 0</div>
+                                </div>
+                                <label class="form-label mt-4">Marca*</label>
+                                <div class="input-group mb-3">
+                                    <select onchange="validaInput()" name='marca_id' class="form-select" aria-label="Default select example">
+                                        <option selected value="0">Open this select menu</option>
+                                        {{#each marcaMap}}
+                                            <option value="{{this.id}}">{{this.nombre}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                    <button type="submit" class="btn btn-primary" >Save changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script>
+$(document).ready( function () {
+    $('#tableProductos').DataTable();
+} );
+function addUpdate(nombre='',id=null){
+    console.log('/productos/update/'+id)
+    $('#nombre').val(nombre);
+    $('#formProducto').attr('action', '/productos/store');
+    if(id){
+        $('#formProducto').attr('action', '/productos/update/'+id);
+        document.getElementById('titleModal').innerHTML='Editar Marca'
+    }else{
+        document.getElementById('titleModal').innerHTML='Agregar Marca'   
+    }
+        $('#exampleModal').modal('show'); // abrir
+}
+function validaInput(){
+    let nombre=document.getElementById('nombre')
+    nombre.className = "form-control is-valid";
+    if(nombre.value.length < 4){
+        nombre.className = "form-control is-invalid";
+    }
+    let precio=document.getElementById('precio')
+    precio.className = "form-control is-valid";
+    if(precio.value == 0){
+        precio.className = "form-control is-invalid";
+    }
+}
+</script>
